@@ -11,7 +11,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('detalle_venta.store') }}" method="POST">
+            <form action="{{ route('detalle_ventas.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="producto_id">Producto</label>

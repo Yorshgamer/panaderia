@@ -24,7 +24,7 @@
         </a>
     </div>
     <div class="col-md-4 mb-3">
-        <a href="{{ route('detalle.ventas.index') }}" class="btn btn-secondary btn-block">
+        <a href="{{ route('detalle_ventas.index') }}" class="btn btn-secondary btn-block">
             <i class="fas fa-file-invoice"></i> Detalle Ventas
         </a>
     </div>

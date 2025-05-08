@@ -12,14 +12,14 @@ class DetalleVentaController extends Controller
     public function index()
     {
         $detalles = DetalleVenta::with(['venta', 'producto'])->latest()->paginate(10);
-        return view('detalle_venta.index', compact('detalles'));
+        return view('detalle_ventas.index', compact('detalles'));
     }
 
     public function create()
     {
         $ventas = Venta::all();
         $productos = Producto::all();
-        return view('detalle_venta.create', compact('ventas', 'productos'));
+        return view('detalle_ventas.create', compact('ventas', 'productos'));
     }
 
     public function store(Request $request)
@@ -52,19 +52,19 @@ class DetalleVentaController extends Controller
             'observaciones' => $request->observaciones,
         ]);
 
-        return redirect()->route('detalle_venta.index')->with('success', 'Detalle de venta registrado correctamente.');
+        return redirect()->route('detalle_ventas.index')->with('success', 'Detalle de venta registrado correctamente.');
     }
 
     public function show(DetalleVenta $detalle_ventum)
     {
-        return view('detalle_venta.show', compact('detalle_ventum'));
+        return view('detalle_ventas.show', compact('detalle_ventum'));
     }
 
     public function edit(DetalleVenta $detalle_ventum)
     {
         $ventas = Venta::all();
         $productos = Producto::all();
-        return view('detalle_venta.edit', compact('detalle_ventum', 'ventas', 'productos'));
+        return view('detalle_ventas.edit', compact('detalle_ventum', 'ventas', 'productos'));
     }
 
     public function update(Request $request, DetalleVenta $detalle_ventum)
@@ -97,13 +97,13 @@ class DetalleVentaController extends Controller
             'observaciones' => $request->observaciones,
         ]);
 
-        return redirect()->route('detalle_venta.index')->with('success', 'Detalle de venta actualizado correctamente.');
+        return redirect()->route('detalle_ventas.index')->with('success', 'Detalle de venta actualizado correctamente.');
     }
 
     public function destroy(DetalleVenta $detalle_ventum)
     {
         $detalle_ventum->delete();
-        return redirect()->route('detalle_venta.index')->with('success', 'Detalle de venta eliminado correctamente.');
+        return redirect()->route('detalle_ventas.index')->with('success', 'Detalle de venta eliminado correctamente.');
     }
 }
 

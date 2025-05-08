@@ -11,7 +11,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('detalle_venta.update', $detalle->id) }}" method="POST">
+            <form action="{{ route('detalle_ventas.update', $detalle->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="form-group">

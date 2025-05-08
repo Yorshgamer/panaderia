@@ -7,15 +7,19 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProductoIngredienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::post('/carrito/agregar', [WelcomeController::class, 'agregarAlCarrito'])->name('carrito.agregar');
+Route::post('/carrito/eliminar', [WelcomeController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
+Route::post('/carrito/vaciar', [WelcomeController::class, 'vaciarCarrito'])->name('carrito.vaciar');
+Route::post('/carrito/checkout', [WelcomeController::class, 'procesarCompra'])->name('carrito.checkout');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+
 
 Route::resource('categorias', CategoriaController::class);
 Route::resource('ventas', VentaController::class);
-Route::resource('detalle-ventas', DetalleVentaController::class)->names('detalle.ventas');
+Route::resource('detalle_ventas', DetalleVentaController::class);
 Route::resource('productos', ProductoController::class);
 
 Route::get('/dashboard', function () {
