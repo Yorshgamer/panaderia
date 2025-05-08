@@ -7,7 +7,13 @@ export default {
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './resources/js/**/*.js',
+        './vendor/adminlte/**/*.blade.php', // si usas vistas parciales de adminlt
     ],
+
+    fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+    },
 
     theme: {
         extend: {
