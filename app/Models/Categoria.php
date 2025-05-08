@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Models\Producto;
+use App\Models\Producto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,14 +14,12 @@ class Categoria extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'tipo',
         'fecha_creacion',
         'imagen_url',
         'popularidad',
         'destacado',
         'estado',
         'codigo_categoria',
-        'orden',
         'observaciones',
     ];
 

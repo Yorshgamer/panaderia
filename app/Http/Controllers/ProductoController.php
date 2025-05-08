@@ -37,18 +37,26 @@ class ProductoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'precio' => 'required|decimal',
+            'precio' => 'required|numeric|decimal:2',  // 2 decimales
             'categoria_id' => 'required|exists:categorias,id',
             'stock' => 'required|integer',
-            'imagen_url' => 'nullable|url',
-            'peso' => 'nullable|decimal',
+            'imagen_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Cambiado a validación de imagen
+            'peso' => 'nullable|numeric|decimal:2', // Validación de peso
             'tiempo_preparacion' => 'nullable|integer',
             'estado' => 'required|in:activo,inactivo',
-            'codigo_producto' => 'nullable|string|max:20',
         ]);
 
+        // Preparamos los datos
+        $data = $request->except('imagen_url');  // Excluimos imagen_url para procesarla por separado
+
+        // Si se sube una imagen, la guardamos y asignamos la ruta
+        if ($request->hasFile('imagen_url')) {
+            $rutaImagen = $request->file('imagen_url')->store('productos', 'public');
+            $data['imagen_url'] = '/storage/' . $rutaImagen;
+        }
+
         // Crear el producto en la base de datos
-        Producto::create($request->all());
+        Producto::create($data);
 
         // Redirigir a la lista de productos con mensaje de éxito
         return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente.');
@@ -82,19 +90,34 @@ class ProductoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'precio' => 'required|decimal',
+            'precio' => 'required|numeric|decimal:2',  // 2 decimales
             'categoria_id' => 'required|exists:categorias,id',
             'stock' => 'required|integer',
-            'imagen_url' => 'nullable|url',
-            'peso' => 'nullable|decimal',
+            'imagen_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validación de imagen
+            'peso' => 'nullable|numeric|decimal:2',
             'tiempo_preparacion' => 'nullable|integer',
             'estado' => 'required|in:activo,inactivo',
-            'codigo_producto' => 'nullable|string|max:20',
         ]);
 
-        // Actualizar el producto con los nuevos datos
-        $producto->update($request->all());
+        // Preparamos los datos
+        $data = $request->except('imagen_url');  // Excluimos imagen_url para procesarla por separado
 
+        // Si se sube una nueva imagen, la guardamos y asignamos la ruta
+        if ($request->hasFile('imagen_url')) {
+            // Borramos la imagen vieja si existe
+            if ($producto->imagen_url) {
+                $imagenPath = public_path(str_replace('/storage', '', $producto->imagen_url));
+                if (file_exists($imagenPath)) {
+                    unlink($imagenPath);
+                }
+            }
+
+            $rutaImagen = $request->file('imagen_url')->store('productos', 'public');
+            $data['imagen_url'] = '/storage/' . $rutaImagen;
+        }
+
+        // Actualizar el producto con los nuevos datos
+        $producto->update($data);
         // Redirigir a la lista de productos con mensaje de éxito
         return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente.');
     }

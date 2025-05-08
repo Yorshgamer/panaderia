@@ -1,24 +1,47 @@
 @extends('adminlte::page')
 
-@section('title', 'Ver Categoría')
+@section('title', 'Detalle de Categoría')
 
 @section('content_header')
-    <h1>Detalle de Categoría</h1>
+    <h1>Detalle de la Categoría</h1>
 @stop
 
 @section('content')
     <div class="card">
+        <div class="card-header">
+            <a href="{{ route('categorias.index') }}" class="btn btn-secondary">Regresar</a>
+            <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-warning float-right">Editar</a>
+        </div>
         <div class="card-body">
-            <p><strong>Nombre:</strong> {{ $categoria->nombre }}</p>
-            <p><strong>Descripción:</strong> {{ $categoria->descripcion }}</p>
-            <p><strong>Tipo:</strong> {{ $categoria->tipo }}</p>
-            <p><strong>Estado:</strong> {{ $categoria->estado }}</p>
-            <p><strong>Popularidad:</strong> {{ $categoria->popularidad }}</p>
-            <p><strong>Destacado:</strong> {{ $categoria->destacado ? 'Sí' : 'No' }}</p>
-            <p><strong>Código de Categoría:</strong> {{ $categoria->codigo_categoria }}</p>
-            <p><strong>Orden:</strong> {{ $categoria->orden }}</p>
-            <p><strong>Observaciones:</strong> {{ $categoria->observaciones }}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Imagen:</h4>
+                    @if ($categoria->imagen_url)
+                        <img src="{{ asset($categoria->imagen_url) }}" alt="{{ $categoria->nombre }}" class="img-fluid" style="max-height: 250px; object-fit: cover;">
+                    @else
+                        <p>No disponible</p>
+                    @endif
+                </div>
+                <div class="col-md-6">
+                    <h4>Nombre:</h4>
+                    <p>{{ $categoria->nombre }}</p>
+
+                    <h4>Descripción:</h4>
+                    <p>{{ $categoria->descripcion }}</p>
+
+                    <h4>Popularidad:</h4>
+                    <p>{{ $categoria->popularidad }}</p>
+
+                    <h4>Estado:</h4>
+                    <p>{{ $categoria->estado }}</p>
+
+                    <h4>Código de Categoría:</h4>
+                    <p>{{ $categoria->codigo_categoria ?? 'No disponible' }}</p>
+
+                    <h4>Observaciones:</h4>
+                    <p>{{ $categoria->observaciones ?? 'No disponible' }}</p>
+                </div>
+            </div>
         </div>
     </div>
-    <a href="{{ route('categorias.index') }}" class="btn btn-secondary mt-3">Volver</a>
 @stop

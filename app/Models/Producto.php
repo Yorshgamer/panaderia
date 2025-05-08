@@ -20,8 +20,6 @@ class Producto extends Model
         'peso',
         'tiempo_preparacion',
         'estado',
-        'codigo_producto',
-        'fecha_creacion',
     ];
 
     // Relación con Categoria

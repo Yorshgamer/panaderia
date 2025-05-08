@@ -7,57 +7,106 @@
 @stop
 
 @section('content')
-    <form action="{{ route('ingredientes.update', $ingrediente) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <div class="mb-3">
-            <label>Nombre:</label>
-            <input type="text" name="nombre" class="form-control" value="{{ $ingrediente->nombre }}" required>
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('ingredientes.update', $ingrediente->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <!-- Campos similares a la creación, pero con valores pre-poblados -->
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{ old('nombre', $ingrediente->nombre) }}" required>
+                    @error('nombre')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="unidad">Unidad</label>
+                    <input type="text" name="unidad" id="unidad" class="form-control @error('unidad') is-invalid @enderror" value="{{ old('unidad', $ingrediente->unidad) }}">
+                    @error('unidad')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="stock_actual">Stock Actual</label>
+                    <input type="number" name="stock_actual" id="stock_actual" class="form-control @error('stock_actual') is-invalid @enderror" value="{{ old('stock_actual', $ingrediente->stock_actual) }}" step="0.01">
+                    @error('stock_actual')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="stock_minimo">Stock Mínimo</label>
+                    <input type="number" name="stock_minimo" id="stock_minimo" class="form-control @error('stock_minimo') is-invalid @enderror" value="{{ old('stock_minimo', $ingrediente->stock_minimo) }}" step="0.01">
+                    @error('stock_minimo')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="proveedor">Proveedor</label>
+                    <input type="text" name="proveedor" id="proveedor" class="form-control @error('proveedor') is-invalid @enderror" value="{{ old('proveedor', $ingrediente->proveedor) }}">
+                    @error('proveedor')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="costo_unitario">Costo Unitario</label>
+                    <input type="number" name="costo_unitario" id="costo_unitario" class="form-control @error('costo_unitario') is-invalid @enderror" value="{{ old('costo_unitario', $ingrediente->costo_unitario) }}" step="0.01">
+                    @error('costo_unitario')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_ultimo_ingreso">Fecha Último Ingreso</label>
+                    <input type="date" name="fecha_ultimo_ingreso" id="fecha_ultimo_ingreso" class="form-control @error('fecha_ultimo_ingreso') is-invalid @enderror" value="{{ old('fecha_ultimo_ingreso', $ingrediente->fecha_ultimo_ingreso) }}">
+                    @error('fecha_ultimo_ingreso')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="ubicacion_almacen">Ubicación en Almacén</label>
+                    <input type="text" name="ubicacion_almacen" id="ubicacion_almacen" class="form-control @error('ubicacion_almacen') is-invalid @enderror" value="{{ old('ubicacion_almacen', $ingrediente->ubicacion_almacen) }}">
+                    @error('ubicacion_almacen')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="codigo_barras">Código de Barras</label>
+                    <input type="text" name="codigo_barras" id="codigo_barras" class="form-control @error('codigo_barras') is-invalid @enderror" value="{{ old('codigo_barras', $ingrediente->codigo_barras) }}">
+                    @error('codigo_barras')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror">
+                        <option value="activo" {{ old('estado', $ingrediente->estado) == 'activo' ? 'selected' : '' }}>Activo</option>
+                        <option value="inactivo" {{ old('estado', $ingrediente->estado) == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                    </select>
+                    @error('estado')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="observaciones">Observaciones</label>
+                    <textarea name="observaciones" id="observaciones" class="form-control @error('observaciones') is-invalid @enderror">{{ old('observaciones', $ingrediente->observaciones) }}</textarea>
+                    @error('observaciones')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <button type="submit" class="btn btn-warning">Actualizar Ingrediente</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label>Unidad:</label>
-            <input type="text" name="unidad" class="form-control" value="{{ $ingrediente->unidad }}">
-        </div>
-        <div class="mb-3">
-            <label>Stock Actual:</label>
-            <input type="number" name="stock_actual" class="form-control" value="{{ $ingrediente->stock_actual }}" step="0.01">
-        </div>
-        <div class="mb-3">
-            <label>Stock Mínimo:</label>
-            <input type="number" name="stock_minimo" class="form-control" value="{{ $ingrediente->stock_minimo }}" step="0.01">
-        </div>
-        <div class="mb-3">
-            <label>Proveedor:</label>
-            <input type="text" name="proveedor" class="form-control" value="{{ $ingrediente->proveedor }}">
-        </div>
-        <div class="mb-3">
-            <label>Costo Unitario:</label>
-            <input type="number" name="costo_unitario" class="form-control" value="{{ $ingrediente->costo_unitario }}" step="0.01">
-        </div>
-        <div class="mb-3">
-            <label>Fecha Último Ingreso:</label>
-            <input type="date" name="fecha_ultimo_ingreso" class="form-control" value="{{ $ingrediente->fecha_ultimo_ingreso }}">
-        </div>
-        <div class="mb-3">
-            <label>Ubicación en Almacén:</label>
-            <input type="text" name="ubicacion_almacen" class="form-control" value="{{ $ingrediente->ubicacion_almacen }}">
-        </div>
-        <div class="mb-3">
-            <label>Código de Barras:</label>
-            <input type="text" name="codigo_barras" class="form-control" value="{{ $ingrediente->codigo_barras }}">
-        </div>
-        <div class="mb-3">
-            <label>Estado:</label>
-            <select name="estado" class="form-control" required>
-                <option value="activo" {{ $ingrediente->estado == 'activo' ? 'selected' : '' }}>Activo</option>
-                <option value="inactivo" {{ $ingrediente->estado == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label>Observaciones:</label>
-            <textarea name="observaciones" class="form-control">{{ $ingrediente->observaciones }}</textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Actualizar</button>
-        <a href="{{ route('ingredientes.index') }}" class="btn btn-secondary">Cancelar</a>
-    </form>
+    </div>
 @stop

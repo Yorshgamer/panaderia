@@ -7,58 +7,47 @@
 @stop
 
 @section('content')
-    <form action="{{ route('categorias.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="mb-3">
-            <label>Nombre:</label>
-            <input type="text" name="nombre" class="form-control" required>
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('categorias.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea name="descripcion" id="descripcion" class="form-control">{{ old('descripcion') }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="imagen_url">Imagen:</label>
+                    <input type="file" name="imagen_url" id="imagen_url" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select name="estado" id="estado" class="form-control">
+                        <option value="activo" {{ old('estado') == 'activo' ? 'selected' : '' }}>Activo</option>
+                        <option value="inactivo" {{ old('estado') == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="destacado">Destacado:</label>
+                    <input type="checkbox" name="destacado" id="destacado" value="1" {{ old('destacado') ? 'checked' : '' }}>
+                </div>
+                <div class="form-group">
+                    <label for="popularidad">Popularidad:</label>
+                    <input type="number" name="popularidad" id="popularidad" class="form-control" value="{{ old('popularidad') }}">
+                </div>
+                <div class="form-group">
+                    <label for="codigo_categoria">Código de Categoría:</label>
+                    <input type="text" name="codigo_categoria" id="codigo_categoria" class="form-control" value="{{ old('codigo_categoria') }}">
+                </div>
+                <div class="form-group">
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea name="observaciones" id="observaciones" class="form-control">{{ old('observaciones') }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Crear Categoría</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label>Descripción:</label>
-            <textarea name="descripcion" class="form-control"></textarea>
-        </div>
-        <div class="mb-3">
-            <label>Tipo:</label>
-            <select name="tipo" class="form-control" required>
-                <option value="pan">Pan</option>
-                <option value="torta">Torta</option>
-                <option value="galleta">Galleta</option>
-                <option value="queque">Queque</option>
-                <option value="postre">Postre</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label>Imagen:</label>
-            <input type="file" name="imagen_url" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Popularidad:</label>
-            <input type="number" name="popularidad" class="form-control" value="0">
-        </div>
-        <div class="mb-3">
-            <label>Destacado:</label>
-            <input type="checkbox" name="destacado" value="1">
-        </div>
-        <div class="mb-3">
-            <label>Estado:</label>
-            <select name="estado" class="form-control" required>
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label>Código de Categoría:</label>
-            <input type="text" name="codigo_categoria" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Orden:</label>
-            <input type="number" name="orden" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Observaciones:</label>
-            <textarea name="observaciones" class="form-control"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="{{ route('categorias.index') }}" class="btn btn-secondary">Cancelar</a>
-    </form>
+    </div>
 @stop

@@ -7,59 +7,53 @@
 @stop
 
 @section('content')
-    <form action="{{ route('categorias.update', $categoria) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        <div class="mb-3">
-            <label>Nombre:</label>
-            <input type="text" name="nombre" class="form-control" value="{{ $categoria->nombre }}" required>
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('categorias.update', $categoria->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre', $categoria->nombre) }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea name="descripcion" id="descripcion" class="form-control">{{ old('descripcion', $categoria->descripcion) }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="imagen_url">Imagen:</label>
+                    <input type="file" name="imagen_url" id="imagen_url" class="form-control">
+                    @if ($categoria->imagen_url)
+                        <div class="mt-2">
+                            <img src="{{ asset($categoria->imagen_url) }}" alt="{{ $categoria->nombre }}" style="width: 100px; height: 100px;">
+                        </div>
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select name="estado" id="estado" class="form-control">
+                        <option value="activo" {{ old('estado', $categoria->estado) == 'activo' ? 'selected' : '' }}>Activo</option>
+                        <option value="inactivo" {{ old('estado', $categoria->estado) == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="destacado">Destacado:</label>
+                    <input type="checkbox" name="destacado" id="destacado" value="1" {{ old('destacado', $categoria->destacado) ? 'checked' : '' }}>
+                </div>
+                <div class="form-group">
+                    <label for="popularidad">Popularidad:</label>
+                    <input type="number" name="popularidad" id="popularidad" class="form-control" value="{{ old('popularidad', $categoria->popularidad) }}">
+                </div>
+                <div class="form-group">
+                    <label for="codigo_categoria">Código de Categoría:</label>
+                    <input type="text" name="codigo_categoria" id="codigo_categoria" class="form-control" value="{{ old('codigo_categoria', $categoria->codigo_categoria) }}">
+                </div>
+                <div class="form-group">
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea name="observaciones" id="observaciones" class="form-control">{{ old('observaciones', $categoria->observaciones) }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-warning">Actualizar Categoría</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label>Descripción:</label>
-            <textarea name="descripcion" class="form-control">{{ $categoria->descripcion }}</textarea>
-        </div>
-        <div class="mb-3">
-            <label>Tipo:</label>
-            <select name="tipo" class="form-control" required>
-                <option value="pan" {{ $categoria->tipo == 'pan' ? 'selected' : '' }}>Pan</option>
-                <option value="torta" {{ $categoria->tipo == 'torta' ? 'selected' : '' }}>Torta</option>
-                <option value="galleta" {{ $categoria->tipo == 'galleta' ? 'selected' : '' }}>Galleta</option>
-                <option value="queque" {{ $categoria->tipo == 'queque' ? 'selected' : '' }}>Queque</option>
-                <option value="postre" {{ $categoria->tipo == 'postre' ? 'selected' : '' }}>Postre</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label>Imagen:</label>
-            <input type="file" name="imagen_url" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Popularidad:</label>
-            <input type="number" name="popularidad" class="form-control" value="{{ $categoria->popularidad }}">
-        </div>
-        <div class="mb-3">
-            <label>Destacado:</label>
-            <input type="checkbox" name="destacado" value="1" {{ $categoria->destacado ? 'checked' : '' }}>
-        </div>
-        <div class="mb-3">
-            <label>Estado:</label>
-            <select name="estado" class="form-control" required>
-                <option value="activo" {{ $categoria->estado == 'activo' ? 'selected' : '' }}>Activo</option>
-                <option value="inactivo" {{ $categoria->estado == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label>Código de Categoría:</label>
-            <input type="text" name="codigo_categoria" class="form-control" value="{{ $categoria->codigo_categoria }}">
-        </div>
-        <div class="mb-3">
-            <label>Orden:</label>
-            <input type="number" name="orden" class="form-control" value="{{ $categoria->orden }}">
-        </div>
-        <div class="mb-3">
-            <label>Observaciones:</label>
-            <textarea name="observaciones" class="form-control">{{ $categoria->observaciones }}</textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Actualizar</button>
-        <a href="{{ route('categorias.index') }}" class="btn btn-secondary">Cancelar</a>
-    </form>
+    </div>
 @stop

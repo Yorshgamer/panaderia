@@ -17,9 +17,6 @@ Route::resource('categorias', CategoriaController::class);
 Route::resource('ventas', VentaController::class);
 Route::resource('detalle-ventas', DetalleVentaController::class)->names('detalle.ventas');
 Route::resource('productos', ProductoController::class);
-Route::resource('ingrediente', IngredienteController::class);
-Route::resource('producto-ingredientes', ProductoIngredienteController::class)->names('producto.ingredientes');
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -21,10 +21,10 @@ class CategoriaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Categoria $categoria)
     {
         // Mostrar el formulario para crear una nueva categoría
-        return view('categorias.create');
+        return view('categorias.create', compact('categoria'));
     }
 
     /**
@@ -36,22 +36,25 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'tipo' => 'required|in:pan,torta,galleta,queque,postre',
-            'imagen_url' => 'nullable|url',
+            'imagen_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'popularidad' => 'nullable|integer|min:0',
             'destacado' => 'nullable|boolean',
             'estado' => 'required|in:activo,inactivo',
             'codigo_categoria' => 'nullable|string|max:20',
-            'orden' => 'nullable|integer',
             'observaciones' => 'nullable|string',
         ]);
     
-        $data = $request->all();
+        $data = $request->except('imagen_url');
         $data['destacado'] = $request->has('destacado');
     
+        // Si subieron una imagen, la guardamos y asignamos la ruta
+        if ($request->hasFile('imagen_url')) {
+            $rutaImagen = $request->file('imagen_url')->store('categorias', 'public');
+            $data['imagen_url'] = '/storage/' . $rutaImagen;
+        }
+    
         Categoria::create($data);
-
-        // Redirigir a la lista de categorías con mensaje de éxito
+    
         return redirect()->route('categorias.index')->with('success', 'Categoría creada exitosamente.');
     }
 
@@ -82,21 +85,24 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'tipo' => 'required|in:pan,torta,galleta,queque,postre',
-            'imagen_url' => 'nullable|url',
+            'imagen_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'popularidad' => 'nullable|integer|min:0',
             'destacado' => 'nullable|boolean',
             'estado' => 'required|in:activo,inactivo',
             'codigo_categoria' => 'nullable|string|max:20',
-            'orden' => 'nullable|integer',
             'observaciones' => 'nullable|string',
         ]);
     
-        $data = $request->all();
+        $data = $request->except('imagen_url');
         $data['destacado'] = $request->has('destacado');
     
+        if ($request->hasFile('imagen_url')) {
+            $rutaImagen = $request->file('imagen_url')->store('categorias', 'public');
+            $data['imagen_url'] = '/storage/' . $rutaImagen;
+        }
+    
         $categoria->update($data);
-        // Redirigir a la lista de categorías con mensaje de éxito
+    
         return redirect()->route('categorias.index')->with('success', 'Categoría actualizada exitosamente.');
     }
 

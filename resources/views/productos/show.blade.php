@@ -3,26 +3,27 @@
 @section('title', 'Ver Producto')
 
 @section('content_header')
-    <h1>Detalle del Producto</h1>
+    <h1>Detalles del Producto</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            <p><strong>Nombre:</strong> {{ $producto->nombre }}</p>
-            <p><strong>Descripción:</strong> {{ $producto->descripcion }}</p>
-            <p><strong>Precio:</strong> {{ $producto->precio }}</p>
-            <p><strong>Categoría:</strong> {{ $producto->categoria ? $producto->categoria->nombre : 'No asignada' }}</p>
-            <p><strong>Stock:</strong> {{ $producto->stock }}</p>
-            <p><strong>Peso:</strong> {{ $producto->peso }}</p>
-            <p><strong>Tiempo de Preparación:</strong> {{ $producto->tiempo_preparacion }} minutos</p>
-            <p><strong>Estado:</strong> {{ $producto->estado }}</p>
-            <p><strong>Código de Producto:</strong> {{ $producto->codigo_producto }}</p>
-            <p><strong>Fecha de Creación:</strong> {{ $producto->fecha_creacion }}</p>
-            @if ($producto->imagen_url)
-                <p><strong>Imagen del Producto:</strong><br><img src="{{ asset('storage/' . $producto->imagen_url) }}" width="200"></p>
-            @endif
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ asset($producto->imagen_url) }}" class="img-fluid" alt="{{ $producto->nombre }}">
+                </div>
+                <div class="col-md-8">
+                    <h4>{{ $producto->nombre }}</h4>
+                    <p><strong>Categoría:</strong> {{ $producto->categoria->nombre ?? 'Sin Categoría' }}</p>
+                    <p><strong>Descripción:</strong> {{ $producto->descripcion ?? 'No disponible' }}</p>
+                    <p><strong>Precio:</strong> ${{ number_format($producto->precio, 2) }}</p>
+                    <p><strong>Stock:</strong> {{ $producto->stock }}</p>
+                    <p><strong>Peso:</strong> {{ number_format($producto->peso, 2) }} kg</p>
+                    <p><strong>Tiempo de Preparación:</strong> {{ $producto->tiempo_preparacion }} minutos</p>
+                    <p><strong>Estado:</strong> {{ ucfirst($producto->estado) }}</p>
+                </div>
+            </div>
         </div>
     </div>
-    <a href="{{ route('productos.index') }}" class="btn btn-secondary">Volver</a>
 @stop
