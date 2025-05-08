@@ -19,7 +19,9 @@ class WelcomeController extends Controller
             $query->where('estado', 'activo'); // O como manejes estado
         }])->get();
         $carrito = Session::get('carrito', []);
-        return view('welcome', compact('categorias'));
+        $total = collect($carrito)->sum(fn($item) => $item['precio'] * $item['cantidad']);
+
+        return view('welcome', compact('categorias', 'carrito', 'total'));
     }
     // Agregar producto al carrito
     public function agregarAlCarrito(Request $request)
@@ -68,6 +70,26 @@ class WelcomeController extends Controller
     {
         Session::forget('carrito');
         return response()->json(['success' => true, 'message' => 'Carrito vaciado']);
+    }
+
+    public function actualizarCantidad(Request $request)
+    {
+        $productoId = $request->input('producto_id');
+        $accion = $request->input('accion'); // 'sumar' o 'restar'
+
+        $carrito = Session::get('carrito', []);
+
+        if (isset($carrito[$productoId])) {
+            if ($accion === 'sumar') {
+                $carrito[$productoId]['cantidad']++;
+            } elseif ($accion === 'restar') {
+                $carrito[$productoId]['cantidad'] = max(1, $carrito[$productoId]['cantidad'] - 1);
+            }
+
+            Session::put('carrito', $carrito);
+        }
+
+        return response()->json(['success' => true]);
     }
 
     // Procesar la compra

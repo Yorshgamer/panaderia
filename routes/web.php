@@ -11,6 +11,7 @@ use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/carrito/agregar', [WelcomeController::class, 'agregarAlCarrito'])->name('carrito.agregar');
+Route::post('/carrito/actualizar', [WelcomeController::class, 'actualizarCantidad'])->name('carrito.actualizar');
 Route::post('/carrito/eliminar', [WelcomeController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
 Route::post('/carrito/vaciar', [WelcomeController::class, 'vaciarCarrito'])->name('carrito.vaciar');
 Route::post('/carrito/checkout', [WelcomeController::class, 'procesarCompra'])->name('carrito.checkout');

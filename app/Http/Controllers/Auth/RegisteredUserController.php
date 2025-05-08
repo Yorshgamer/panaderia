@@ -31,12 +31,28 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'apellido' => ['nullable', 'string', 'max:255'],
+            'rol' => ['nullable', 'string'],
+            'telefono' => ['nullable', 'string', 'max:20'],
+            'direccion' => ['nullable', 'string'],
+            'fecha_nacimiento' => ['nullable', 'date'],
+            'genero' => ['nullable', 'in:Masculino,Femenino,Otro'],
+            'estado' => ['nullable', 'string'],
+            'comentarios' => ['nullable', 'string'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'apellido' => $request->apellido,
+            'rol' => $request->rol,
+            'telefono' => $request->telefono,
+            'direccion' => $request->direccion,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'genero' => $request->genero,
+            'estado' => $request->estado ?? 'activo',
+            'comentarios' => $request->comentarios,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -45,6 +61,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('welcome', absolute: false));
     }
 }
